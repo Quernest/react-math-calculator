@@ -7,6 +7,16 @@
     width: 80%;
     padding-left: .5rem;
     padding-right: .5rem;
+    &-info {
+        font-size: em(16);
+        > p {
+            margin-top: .3rem;
+            margin-bottom: .3rem;
+        }
+        @include for-size(desktop-up) {
+            font-size: em(18);
+        }
+    }
 }
 
 

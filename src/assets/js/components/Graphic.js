@@ -92,23 +92,31 @@ class Graphic extends Component {
                 x0    = axes.x0,
                 y0    = axes.y0;
 
+            // ctx.beginPath();
+            // ctx.strokeStyle = "blue";
+            // ctx.lineWidth = 2;
+            // for(let i = 0; i < x.length; i++) {
+            //     if(i > 0)
+            //     ctx.lineTo(x0 + x[i] * scale, y0 - y[i] * scale);		
+            //     ctx.moveTo(x0 + x[i] * scale, y0 - y[i] * scale);
+            // }
+            // ctx.stroke();
             ctx.beginPath();
-            ctx.strokeStyle = "blue";
+            ctx.strokeStyle = 'red';
             ctx.lineWidth = 2;
-
-            for(let i = 0; i < x.length; i++) {
-                if(i > 0)
-                ctx.lineTo(x0 + x[i] * scale, y0 - y[i] * scale);		
-                ctx.moveTo(x0 + x[i] * scale, y0 - y[i] * scale);
-            }
+            ctx.setLineDash([15, 8]);
+            ctx.moveTo(x0 + x[x.length - 1] * scale, y0); ctx.lineTo(x0 + x[x.length - 1] * scale, y0 - y[x.length - 1] * scale);
+            ctx.moveTo(x0, y0 - y[x.length - 1 * scale]); ctx.lineTo(x0 - x[x.length - 1], y0 - y[x.length - 1] * scale);
             ctx.stroke();
+            ctx.setLineDash([0, 0]);
             
             ctx.beginPath();
             ctx.strokeStyle = "red";
-
             ctx.lineWidth = 4;
-            ctx.arc(x0 + x[x.length - 1] * scale, y0 - y[x.length - 1] * scale, scale/15, 0, 2 * Math.PI);
-
+            ctx.arc(x0 + x[x.length - 1] * scale, y0 - y[x.length - 1] * scale, scale/20, 0, 2 * Math.PI);
+            ctx.font = `${scale/4}px sans-serif`;
+            ctx.fillText(`y* = ${this.props.items.y}`, x0 + x[x.length - 1] * scale - (scale/6), y0 - y[x.length - 1] * scale + (scale/3));
+            ctx.fillText(`x* = ${this.props.items.c}`, x0 + x[x.length - 1] * scale - (scale/6), y0 - (scale/6));
             ctx.stroke();
         }
         

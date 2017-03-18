@@ -1,18 +1,18 @@
-$iconSize: 38px;
+$iconSize: 36px;
 
 #warning {
     display: flex;
     flex-direction: column;
     width: 100%;
-    @include for-size(desktop-up) {
-        width: 90%;
+    @include for-size(tablet-portrait-up) {
         @include push--auto();
+        width: 90%;
     }
     &-title {
         display: flex;
         align-items: flex-end;
-        margin-bottom: 1rem;
         margin-top: 1rem;
+        margin-bottom: 1rem;
         > img {
             margin-right: .5rem;
             width: $iconSize;
@@ -20,7 +20,11 @@ $iconSize: 38px;
         > h3 {
             margin-top: 0;
             margin-bottom: 0;
-            font-size: $iconSize - 10px;
+            font-size: em(28);
+        }
+        @include for-size(tablet-portrait-up) {
+            margin-top: 0;
+            margin-bottom: .5rem;
         }
     }
     &-content {

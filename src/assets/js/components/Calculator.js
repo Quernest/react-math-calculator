@@ -63,20 +63,18 @@ class Calculator extends Component {
                     y2 = f(x2);
 
                     y1 <= y2 ? b = x2 : a = x1;
+
+                    if(Math.abs(b - a) < EPS) {
+                        break;
+                    }
+
                     this.c = (a + b) / 2;
                     this.y = f(this.c);
 
                     arrayX.push(this.c);
                     arrayY.push(this.y);
-
-                    if(Math.abs(b - a) < EPS) {
-                        break;
-                    }
                     k += 1;
                 }
-                console.log('Minimum coordinate = ', this.c);
-                console.log('Min function', this.y);
-                console.log('Interval', n);
                 this.setState({points: {x: arrayX, y: arrayY}});
                 break;
             case 'gold' :
@@ -100,20 +98,15 @@ class Calculator extends Component {
                         y1 = y2; y2 = f(x2);
                     }
 
-                    this.c = (a + b) / 2;
-                    this.y = f(this.c);
-
-                    arrayX.push(this.c);
-                    arrayY.push(this.y);
-
                     if(Math.abs(b - a) < EPS) {
                         break;
                     }
+                    this.c = (a + b) / 2;
+                    this.y = f(this.c);
+                    arrayX.push(this.c);
+                    arrayY.push(this.y);
                     k += 1;
                 }   
-                console.log('Minimum coordinate = ', this.c);
-                console.log('Min function', this.y);
-                console.log('Interval', n);
                 this.setState({points: {x: arrayX, y: arrayY}});
                 break;
             case 'fibonacci' :
@@ -125,15 +118,16 @@ class Calculator extends Component {
             this.setState({ c: 'X* not found' });
         } else {
             this.setState({ 
-                c: 'x* = ' + this.c.toFixed(4),
-                y: 'y* = ' + this.y.toFixed(4),
-                intervals: 'n = ' + n
+                c: this.c.toFixed(4),
+                y: this.y.toFixed(4),
+                intervals: n
             });
             this.setState({isRender: true});           
         }
     }
 
     render() {
+
         let getRandom = () => Math.random();
 
         let canvas  = null,
@@ -143,9 +137,14 @@ class Calculator extends Component {
         if (this.state.isRender) {
             canvas = <Graphic items={this.state} isRender={this.state.isRender} />;
             output = [
-                <span key={getRandom()}> {this.state.c} </span>,
-                <span key={getRandom()}> {this.state.y} </span>, 
-                <span key={getRandom()}> {this.state.intervals} </span>
+                <span key={getRandom()}> <strong>x*</strong> = {this.state.c} </span>,
+                <span key={getRandom()}> <strong>y*</strong> = {this.state.y} </span>, 
+                <span key={getRandom()}> <strong>n</strong> = {this.state.intervals} </span>,
+                <div key={getRandom()} id="results-info">
+                    <p><strong>x*</strong> &ndash; координата точки, где функция f(x) имеет минимум.</p>
+                    <p><strong>y*</strong> &ndash; значение функции f(x) в этой точке.</p>
+                    <p><strong>n</strong> &ndash; количество интервалов разбиения.</p>
+                </div>
             ];
             warning = null;
         }

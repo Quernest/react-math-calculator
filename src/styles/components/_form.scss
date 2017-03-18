@@ -1,7 +1,7 @@
 $height: 50;
 $width: 100%;
 
-$gutter: .3rem;
+$gutter: .5rem;
 $select-size: .3rem;
 $form-basis: 20%;
 
@@ -12,8 +12,7 @@ $form-basis: 20%;
     width: $form-basis;
     > span {
         font-size: em(21);
-        padding-top: $gutter;
-        padding-bottom: $gutter;
+        padding: $gutter;
         border-bottom: 1px solid rgba($grey, .2);
     }
 }
@@ -25,8 +24,8 @@ input, button {
 }
 
 input {
-    padding-left: $gutter * 2;
-    padding-right: $gutter * 2;
+    padding-left: $gutter;
+    padding-right: $gutter;
     width: 50%;
     border: 2px solid $lightgrey;
     outline: none;
