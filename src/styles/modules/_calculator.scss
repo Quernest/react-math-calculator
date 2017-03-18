@@ -1,0 +1,21 @@
+#calculator {
+    display: flex;
+}
+
+#results {
+    flex-basis: 80%;
+    width: 80%;
+    padding-left: .5rem;
+    padding-right: .5rem;
+}
+
+
+@include for-size(phone-only) {
+    #calculator {
+        flex-direction: column;
+    }
+    #results {
+        padding: 0;
+        width: 100%;
+    }
+}

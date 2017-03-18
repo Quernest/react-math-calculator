@@ -1,0 +1,72 @@
+$height: 50;
+$width: 100%;
+
+$gutter: .3rem;
+$select-size: .3rem;
+$form-basis: 20%;
+
+#form {
+    display: flex;
+    flex-direction: column;
+    flex-basis: $form-basis;
+    width: $form-basis;
+    > span {
+        font-size: em(21);
+        padding-top: $gutter;
+        padding-bottom: $gutter;
+        border-bottom: 1px solid rgba($grey, .2);
+    }
+}
+
+input, button {
+    width: $width;
+    height: em($height);
+    border: none;
+}
+
+input {
+    padding-left: $gutter * 2;
+    padding-right: $gutter * 2;
+    width: 50%;
+    border: 2px solid $lightgrey;
+    outline: none;
+    font-family: "RobotoCondensed-Bold", sans-serif;
+    font-size: em(16);
+}
+
+select {
+    padding: $select-size;
+    width: $width;
+}
+
+button, select {
+    background-color: transparent;
+    border: 2px solid rgba($grey, .6);
+    text-transform: uppercase;
+    color: $grey;
+    font-family: "RobotoCondensed-Bold", sans-serif;
+    transition: all $transition-fast ease-out;
+    border-radius: 5px;
+    margin-top: $gutter;
+    margin-bottom: $gutter;
+    &:hover, &:active, &:focus {
+        outline: none;
+        color: $lightgrey;
+        background-color: $grey;
+        cursor: pointer;
+    }
+}
+
+@include for-size(phone-only) {
+    #form, select {
+        width: $width;
+    }
+    select {
+        margin-top: $gutter;
+        margin-bottom: $gutter;
+    }
+}
+
+@include for-size(tablet-portrait-up) {
+
+}

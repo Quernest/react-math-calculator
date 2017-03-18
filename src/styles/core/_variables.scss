@@ -1,0 +1,41 @@
+// colors
+$blue               : #1b87c8;
+$white              : #fff;
+$green              : #6bc324;
+$violet             : #785777;
+$maline             : #ff6565;
+$grey               : #3f4040;
+$ash                : #525252;
+$dark               : #000;
+$lightgrey          : #eceff1;
+$lightgreen         : #80ff80;
+
+// fonts
+$font-family-base   : "RobotoCondensed-Regular", sans-serif;
+$font-weight-light  : 300;
+$font-weight-normal : 400;
+$font-weight-bold   : 700;
+
+// transition
+$transition-base    : .33s;
+$transition-fast    : .2s;
+$transition-slow    : .7s;
+
+// other
+$border-radius-base : 5px;
+
+// @media sizes
+$phone-only         : 599;
+$tablet-portrait-up : 600;
+$tablet-landscape-up: 900;
+$desktop-up         : 1200;
+$big-desktop-up     : 1800;
+
+// utilites
+$padding-base       : .5rem;
+$padding-middle     : 1rem;
+$padding-big        : 2rem;
+
+$margin-base        : .5rem;
+$margin-middle      : 1rem;
+$margin-big         : 2rem;

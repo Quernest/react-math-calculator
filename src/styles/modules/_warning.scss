@@ -1,0 +1,39 @@
+$iconSize: 38px;
+
+#warning {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    @include for-size(desktop-up) {
+        width: 90%;
+        @include push--auto();
+    }
+    &-title {
+        display: flex;
+        align-items: flex-end;
+        margin-bottom: 1rem;
+        margin-top: 1rem;
+        > img {
+            margin-right: .5rem;
+            width: $iconSize;
+        }
+        > h3 {
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: $iconSize - 10px;
+        }
+    }
+    &-content {
+        display: flex;
+        flex-direction: column;
+        font-size: 18px;
+        > p {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        > h1,h2,h3,h4,h5,h6,ul {
+            margin-top: .3rem;
+            margin-bottom: .3rem;
+        }
+    }
+}
