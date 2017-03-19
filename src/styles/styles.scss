@@ -1,4 +1,6 @@
 // * site core * // 
+@import 'lib/normalize';
+
 @import 'core/mixins';
 @import 'core/variables';
 @import 'core/fonts';
@@ -10,7 +12,7 @@
 @import 'modules/typography';
 @import 'modules/calculator';
 @import 'modules/graphic';
-@import 'modules/warning';
+@import 'modules/info';
 
 // tricks
 @import 'custom';

@@ -1,22 +1,38 @@
 import React, { Component } from 'react';
 
-import { f } from './Calculator';
+
+const screenSize = {
+    w : window.innerWidth,
+    h : window.innerHeight,
+    ow: window.outerWidth,
+    oh: window.outerHeight
+};
 
 class Graphic extends Component {
     constructor(props) {
         super(props);
-        this.count   = 120;
-        this.state   = {
-            mouseX   : null,
-            mouseY   : null,
-            axes     : {
-                scale: this.count
-            }
+
+        this.width  = 1200,
+        this.height = 800;
+        this.scale  = 100;
+
+        this.state = {
+            axes: {
+                scale: this.scale
+            },
+            canvas: {
+                width: this.width,
+                height: this.height,
+                halfWidth: .5 + .5 * this.width,
+                halfHeight: .5 + .5 * this.height,
+            },
+            rect: {},
         }
 
         this.onWheel     = this.onWheel.bind(this);
-        this.onMouseMove = this.onMouseMove.bind(this);
         this.onClick     = this.onClick.bind(this);
+        
+        this.f = (x) => eval(this.props.items.funcstr); // input's function
     }
 
     componentDidMount() {
@@ -29,15 +45,19 @@ class Graphic extends Component {
 
     updateCanvas() {
         let canvas       = this.refs.canvas,
-            canvasRect   = canvas.getBoundingClientRect(),
-            w            = canvas.width,
-            h            = canvas.height;
+            w            = this.state.canvas.width,
+            h            = this.state.canvas.height;
 
         let axes         = this.state.axes,
             ctx          = this.refs.canvas.getContext("2d");
 
-        axes.x0          = .5 + .5 * w;
-        axes.y0          = .5 + .5 * h;
+        let rect         = this.state.rect;
+            rect.sizes   = canvas.getBoundingClientRect();
+            rect.scaleX  = w / canvas.getBoundingClientRect().width;
+            rect.scaleY  = h / canvas.getBoundingClientRect().height;
+
+        axes.x0          = this.state.canvas.halfWidth;
+        axes.y0          = this.state.canvas.halfHeight;
         axes.scale       = this.state.axes.scale;
         axes.doNegativeX = true;
 
@@ -52,7 +72,7 @@ class Graphic extends Component {
             ctx.beginPath();
             ctx.strokeStyle = color;
             for (let i = iMin; i <= iMax; i++) {
-                xx = dx * i; yy = scale * f(xx/scale);
+                xx = dx * i; yy = scale * this.f(xx/scale);
                 i == iMin ? ctx.moveTo(x0 + xx, y0 - yy) :
                             ctx.lineTo(x0 + xx, y0 - yy);
             }
@@ -92,15 +112,6 @@ class Graphic extends Component {
                 x0    = axes.x0,
                 y0    = axes.y0;
 
-            // ctx.beginPath();
-            // ctx.strokeStyle = "blue";
-            // ctx.lineWidth = 2;
-            // for(let i = 0; i < x.length; i++) {
-            //     if(i > 0)
-            //     ctx.lineTo(x0 + x[i] * scale, y0 - y[i] * scale);		
-            //     ctx.moveTo(x0 + x[i] * scale, y0 - y[i] * scale);
-            // }
-            // ctx.stroke();
             ctx.beginPath();
             ctx.strokeStyle = 'red';
             ctx.lineWidth = 2;
@@ -111,7 +122,6 @@ class Graphic extends Component {
             ctx.setLineDash([0, 0]);
             
             ctx.beginPath();
-            ctx.strokeStyle = "red";
             ctx.lineWidth = 4;
             ctx.arc(x0 + x[x.length - 1] * scale, y0 - y[x.length - 1] * scale, scale/20, 0, 2 * Math.PI);
             ctx.font = `${scale/4}px sans-serif`;
@@ -121,31 +131,36 @@ class Graphic extends Component {
         }
         
         showAxes(axes);
-        funGraph(axes, f, "rgb(11,153,11)");
+        funGraph(axes, this.f, "rgb(11,153,11)");
         funMethod(axes, this.props.items.points.x, this.props.items.points.y);
     }
 
     onWheel(event) {
-        let delta = event.deltaY / 10;
+        let delta = event.deltaY / 5;
         if(delta === -delta) 
-            this.setState({axes: {scale: this.count += delta }});
+            this.setState({axes: {scale: this.scale += delta }});
         else 
-            this.setState({axes: {scale: this.count += delta }});
-        this.count <= 50 ? this.setState({axes: {scale: this.count -= delta}}) : true;
+            this.setState({axes: {scale: this.scale += delta }});
+        this.scale <= 50 ? this.setState({axes: {scale: this.scale -= delta}}) : true;
         event.preventDefault();
     }
 
     onClick(event) {
-        console.log("clicked");
-    }
-
-    onMouseMove(event) {
-        this.setState({mouseX: event.clientX - this.state.axes.y0, mouseY: event.clientY - this.state.axes.x0});
+        if(screenSize.w > 900 && screenSize.h > 600) {
+            this.setState({
+                canvas: {
+                    width     : this.width,
+                    height    : this.height,
+                    halfWidth : (event.clientX - this.state.rect.sizes.left) * this.state.rect.scaleX,
+                    halfHeight: (event.clientY - this.state.rect.sizes.top)  * this.state.rect.scaleY
+                }
+            })
+        }
     }
 
     render() {
         return (
-            <canvas ref="canvas" id="graphic" width={1140} height={768} onWheel={this.onWheel} onMouseMove={this.onMouseMove} onClick={this.onClick}>
+            <canvas ref="canvas" id="graphic" width={this.width} height={this.height} onWheel={this.onWheel} onClick={this.onClick}>
                 HTML5 canvas not support in your browser!
             </canvas>
         );

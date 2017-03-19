@@ -1,0 +1,43 @@
+$iconSize: 36px;
+
+#warning {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    @include for-size(tablet-portrait-up) {
+        @include push--auto();
+        width: 90%;
+    }
+    &-title {
+        display: flex;
+        align-items: flex-end;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        > img {
+            margin-right: .5rem;
+            width: $iconSize;
+        }
+        > h3 {
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: em(28);
+        }
+        @include for-size(tablet-portrait-up) {
+            margin-top: 0;
+            margin-bottom: .5rem;
+        }
+    }
+    &-content {
+        display: flex;
+        flex-direction: column;
+        font-size: 18px;
+        > p {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+        > h1,h2,h3,h4,h5,h6,ul {
+            margin-top: .3rem;
+            margin-bottom: .3rem;
+        }
+    }
+}

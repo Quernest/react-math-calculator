@@ -15,6 +15,9 @@ $form-basis: 20%;
         padding: $gutter;
         border-bottom: 1px solid rgba($grey, .2);
     }
+    > input {
+        width: 100%;
+    }
 }
 
 input, button {
@@ -31,6 +34,9 @@ input {
     outline: none;
     font-family: "RobotoCondensed-Bold", sans-serif;
     font-size: em(16);
+    &:invalid {
+        box-shadow: none;
+    }
 }
 
 select {

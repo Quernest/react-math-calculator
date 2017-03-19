@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
 
 import Graphic from './Graphic';
-import Warning from './Warning';
-
-export function f(x) {
-    return x*x + 2*x;
-}
+import Warning from './Info';
 
 class Calculator extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            a: '',
-            b: '',
+            f: '',
+            a: '-3',
+            b: '5',
             select: 'dichotomy',
             isRender: false,
         };
         this.handleSubmit      = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.f = (x) => eval(this.state.f); // function from input
     }
 
     handleInputChange(event) {
@@ -32,6 +30,8 @@ class Calculator extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        
+        this.state.funcstr = this.state.f // fix
 
         this.a = parseFloat(this.state.a);
         this.b = parseFloat(this.state.b);
@@ -59,8 +59,8 @@ class Calculator extends Component {
                     x1 = (a + b - delta) / 2;
                     x2 = (a + b + delta) / 2;
 
-                    y1 = f(x1);
-                    y2 = f(x2);
+                    y1 = this.f(x1);
+                    y2 = this.f(x2);
 
                     y1 <= y2 ? b = x2 : a = x1;
 
@@ -69,7 +69,7 @@ class Calculator extends Component {
                     }
 
                     this.c = (a + b) / 2;
-                    this.y = f(this.c);
+                    this.y = this.f(this.c);
 
                     arrayX.push(this.c);
                     arrayY.push(this.y);
@@ -80,8 +80,8 @@ class Calculator extends Component {
             case 'gold' :
                 x1 = a + PHI * (b - a);
                 x2 = b - PHI * (b - a);
-                y1 = f(x1);
-                y2 = f(x2);
+                y1 = this.f(x1);
+                y2 = this.f(x2);
 
                 while(true) {
                     n = 2 * k;
@@ -90,19 +90,19 @@ class Calculator extends Component {
                          b = x2;
                         x2 = x1;
                         x1 = a + PHI * (b - a);
-                        y2 = y1; y1 = f(x1);
+                        y2 = y1; y1 = this.f(x1);
                     } else {
                         a = x1;
                         x1 = x2;
                         x2 = b - PHI * (b - a);
-                        y1 = y2; y2 = f(x2);
+                        y1 = y2; y2 = this.f(x2);
                     }
 
                     if(Math.abs(b - a) < EPS) {
                         break;
                     }
                     this.c = (a + b) / 2;
-                    this.y = f(this.c);
+                    this.y = this.f(this.c);
                     arrayX.push(this.c);
                     arrayY.push(this.y);
                     k += 1;
@@ -135,7 +135,7 @@ class Calculator extends Component {
             warning = <Warning />;
 
         if (this.state.isRender) {
-            canvas = <Graphic items={this.state} isRender={this.state.isRender} />;
+            canvas = <Graphic items={this.state} isRender={this.state.isRender}/>;
             output = [
                 <span key={getRandom()}> <strong>x*</strong> = {this.state.c} </span>,
                 <span key={getRandom()}> <strong>y*</strong> = {this.state.y} </span>, 
@@ -160,6 +160,14 @@ class Calculator extends Component {
                         <option value="gold">Golden section</option>
                         <option value="fibonacci ">Fibonacci</option>
                     </select>
+                    <input 
+                        type="text"
+                        placeholder="f(x)"
+                        name="f"
+                        value={this.state.f}
+                        onChange={this.handleInputChange}
+                        required 
+                    />
                     <div>
                     <input 
                         type="number"
