@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import math from 'mathjs';
 
 const screenSize = {
     w : window.innerWidth,
@@ -32,7 +32,7 @@ class Graphic extends Component {
         this.onWheel     = this.onWheel.bind(this);
         this.onClick     = this.onClick.bind(this);
         
-        this.f = (x) => eval(this.props.items.funcstr); // input's function
+        this.f = (x) => math.eval(this.props.items.funcstr, {x: x}); // input's function
     }
 
     componentDidMount() {
@@ -87,17 +87,26 @@ class Graphic extends Component {
             let xmin = axes.doNegativeX ? 0 : x0;
             ctx.beginPath();
             ctx.strokeStyle = "#333";
+            ctx.font = `${axes.scale/4}px sans-serif`;
             ctx.lineWidth = 1.5;
             ctx.moveTo(xmin, y0); ctx.lineTo(w, y0); // X axis
             ctx.moveTo(x0, 0);    ctx.lineTo(x0, h); // Y axis
             ctx.stroke();
             for(let i = 0; i < w / axes.scale; i++) {
+                if (i === 0) ctx.fillText(`${i}`, x0 - (axes.scale * i) - (axes.scale/4), y0 + (axes.scale / 4));
+                else {
+                    // x coordinate numbers
+                    ctx.fillText(`-${i}`, x0 - (axes.scale * i) - (axes.scale/4), y0 + (axes.scale / 4));
+                    ctx.fillText(`${i}`, x0 + (axes.scale * i) - (axes.scale/6), y0 + (axes.scale / 4));
+                    // Y coordinate numbers
+                    ctx.fillText(`-${i}`, x0 - (axes.scale/4), y0 + (axes.scale * i) + (axes.scale/4));
+                    ctx.fillText(`${i}`, x0 + (axes.scale/16), y0 - (axes.scale * i) + (axes.scale/4));
+                }
                 // x coordinate sections
                 ctx.moveTo(x0 - (axes.scale * i), y0 + (axes.scale / 10));
                 ctx.lineTo(x0 - (axes.scale * i), y0 - (axes.scale / 10));
                 ctx.moveTo(x0 + (axes.scale * i), y0 + (axes.scale / 10));
                 ctx.lineTo(x0 + (axes.scale * i), y0 - (axes.scale / 10));
-
                 // y coordinate sections
                 ctx.moveTo(x0 + (axes.scale/10), y0 - (axes.scale * i));
                 ctx.lineTo(x0 - (axes.scale/10), y0 - (axes.scale * i));

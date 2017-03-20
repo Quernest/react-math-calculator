@@ -51,7 +51,7 @@ button, select {
     color: $grey;
     font-family: "RobotoCondensed-Bold", sans-serif;
     transition: all $transition-fast ease-out;
-    border-radius: 5px;
+    border-radius: 3px;
     margin-top: $gutter;
     margin-bottom: $gutter;
     &:hover, &:active, &:focus {
@@ -70,8 +70,4 @@ button, select {
         margin-top: $gutter;
         margin-bottom: $gutter;
     }
-}
-
-@include for-size(tablet-portrait-up) {
-
 }

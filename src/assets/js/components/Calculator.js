@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import math from 'mathjs';
 
 import Graphic from './Graphic';
 import Warning from './Info';
@@ -15,7 +16,7 @@ class Calculator extends Component {
         };
         this.handleSubmit      = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.f = (x) => eval(this.state.f); // function from input
+        this.f = (x) => math.eval(this.state.f, {x: x}); // function from input
     }
 
     handleInputChange(event) {
