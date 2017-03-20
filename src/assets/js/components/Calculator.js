@@ -111,7 +111,61 @@ class Calculator extends Component {
                 this.setState({points: {x: arrayX, y: arrayY}});
                 break;
             case 'fibonacci' :
+                let fib = (n) => {
+                    return n === 0 || n === 1 ? 1 : fib(n - 1) + fib(n - 2);
+                }
+
+                let N = (b-a)/0.1;
+
+                let i = 2;
+                while(true) {
+                    if(N < fib(i)) break;
+                    else i += 1;
+                }
+
+                n = i - 1; k = 1;
+
+                let l = (b - a) / fib(n);
+
+                x1 = a + l * fib(n - 2);
+                x2 = b - l * fib(n - 2);
+
+                y1 = this.f(x1); y2 = this.f(x2);
+
+                while(true) {
+                    if(y1 < y2) {
+                        b = x2; k += 1;
+                        k === n - 1 ? (
+                            x2 = x1 + EPS,
+                            y2 = this.f(x2)
+                         ) : (
+                             x2 = x1, y2 = y1,
+                             x1 = a + l * fib(n - 1 - k),
+                             y1 = this.f(x1)
+                         );
+                    } else {
+                        a = x1; k += 1;
+                        k === n - 1 ? (
+                            x1 = x2 + EPS,
+                            y2 = this.f(x2)
+                        ) : (
+                            x1 = x2, y1 = y2,
+                            x2 = b - l * fib(n - 1 - k),
+                            y2 = this.f(x2)
+                        )
+                    }
+                    y1 < y2 ? b = x1 : a = x1;
+
+                    this.c = (a + b) / 2;
+                    this.y = this.f(this.c);
+
+                    arrayX.push(this.c);
+                    arrayY.push(this.y);
+
+                    if(k === n - 1) break;
+                }
                 
+                this.setState({points: {x: arrayX, y: arrayY}});
                 break;
         }
         
@@ -159,7 +213,7 @@ class Calculator extends Component {
                     <select value={this.state.select} name="select" onChange={this.handleInputChange}>
                         <option value="dichotomy">Dichotomy</option>
                         <option value="gold">Golden section</option>
-                        <option value="fibonacci ">Fibonacci</option>
+                        <option value="fibonacci">Fibonacci</option>
                     </select>
                     <input 
                         type="text"

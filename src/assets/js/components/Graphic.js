@@ -96,11 +96,11 @@ class Graphic extends Component {
                 if (i === 0) ctx.fillText(`${i}`, x0 - (axes.scale * i) - (axes.scale/4), y0 + (axes.scale / 4));
                 else {
                     // x coordinate numbers
-                    ctx.fillText(`-${i}`, x0 - (axes.scale * i) - (axes.scale/4), y0 + (axes.scale / 4));
-                    ctx.fillText(`${i}`, x0 + (axes.scale * i) - (axes.scale/6), y0 + (axes.scale / 4));
+                    ctx.fillText(`-${i}`, x0 - (axes.scale * i) - (axes.scale/8), y0 + (axes.scale/3));
+                    ctx.fillText(`${i}`, x0 + (axes.scale * i) - (axes.scale/16), y0 + (axes.scale/3));
                     // Y coordinate numbers
-                    ctx.fillText(`-${i}`, x0 - (axes.scale/4), y0 + (axes.scale * i) + (axes.scale/4));
-                    ctx.fillText(`${i}`, x0 + (axes.scale/16), y0 - (axes.scale * i) + (axes.scale/4));
+                    ctx.fillText(`-${i}`, x0 - (axes.scale/3), y0 + (axes.scale * i) + (axes.scale/10));
+                    ctx.fillText(`${i}`, x0 + (axes.scale/6), y0 - (axes.scale * i) + (axes.scale/10));
                 }
                 // x coordinate sections
                 ctx.moveTo(x0 - (axes.scale * i), y0 + (axes.scale / 10));
