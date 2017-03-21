@@ -115,7 +115,7 @@ class Calculator extends Component {
                     return n === 0 || n === 1 ? 1 : fib(n - 1) + fib(n - 2);
                 }
 
-                let N = (b-a)/0.1;
+                let N = (b-a)/0.2;
 
                 let i = 2;
                 while(true) {
@@ -123,13 +123,11 @@ class Calculator extends Component {
                     else i += 1;
                 }
 
-                n = i - 1; k = 1;
+                n = i; k = 1;
 
                 let l = (b - a) / fib(n);
-
                 x1 = a + l * fib(n - 2);
                 x2 = b - l * fib(n - 2);
-
                 y1 = this.f(x1); y2 = this.f(x2);
 
                 while(true) {
@@ -154,15 +152,16 @@ class Calculator extends Component {
                             y2 = this.f(x2)
                         )
                     }
+
                     y1 < y2 ? b = x1 : a = x1;
+   
+                    if(k === n - 1) break;
 
                     this.c = (a + b) / 2;
                     this.y = this.f(this.c);
 
                     arrayX.push(this.c);
                     arrayY.push(this.y);
-
-                    if(k === n - 1) break;
                 }
                 
                 this.setState({points: {x: arrayX, y: arrayY}});
