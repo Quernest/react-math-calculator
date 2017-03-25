@@ -14,6 +14,9 @@ class Graphic extends Component {
 
         this.width  = 1200,
         this.height = 800;
+        this.x0 = .5 + .5 * this.width;
+        this.y0 = .5 + .5 * this.height;
+
         this.scale  = 100;
 
         this.state = {
@@ -23,14 +26,25 @@ class Graphic extends Component {
             canvas: {
                 width: this.width,
                 height: this.height,
-                halfWidth: .5 + .5 * this.width,
-                halfHeight: .5 + .5 * this.height,
-            },
-            rect: {},
+                halfWidth: this.x0,
+                halfHeight: this.y0       
+            }
+        }    
+
+        this.rect = {}
+
+        this.mouse = {
+            isDown: false,
+            prevX : null,
+            prevY : null,
+            x     : null,
+            y     : null
         }
 
         this.onWheel     = this.onWheel.bind(this);
-        this.onClick     = this.onClick.bind(this);
+        this.onMouseMove = this.onMouseMove.bind(this);
+        this.onMouseDown = this.onMouseDown.bind(this);
+        this.onMouseUp   = this.onMouseUp.bind(this);
         
         this.f = (x) => math.eval(this.props.items.funcstr, {x: x}); // input's function
     }
@@ -51,7 +65,7 @@ class Graphic extends Component {
         let axes         = this.state.axes,
             ctx          = this.refs.canvas.getContext("2d");
 
-        let rect         = this.state.rect;
+        let rect         = this.rect;
             rect.sizes   = canvas.getBoundingClientRect();
             rect.scaleX  = w / canvas.getBoundingClientRect().width;
             rect.scaleY  = h / canvas.getBoundingClientRect().height;
@@ -154,22 +168,41 @@ class Graphic extends Component {
         event.preventDefault();
     }
 
-    onClick(event) {
-        if(screenSize.w > 900 && screenSize.h > 600) {
-            this.setState({
-                canvas: {
-                    width     : this.width,
-                    height    : this.height,
-                    halfWidth : (event.clientX - this.state.rect.sizes.left) * this.state.rect.scaleX,
-                    halfHeight: (event.clientY - this.state.rect.sizes.top)  * this.state.rect.scaleY
-                }
-            })
+    onMouseDown(event) {
+        this.mouse.prevX = (event.clientX - this.rect.sizes.left) * this.rect.scaleX;
+        this.mouse.prevY = (event.clientY - this.rect.sizes.top) * this.rect.scaleY;
+        this.mouse.isDown = true;
+    }
+
+    onMouseMove(event) {
+        if(this.mouse.isDown) {
+            this.mouse.x = (event.clientX - this.rect.sizes.left) * this.rect.scaleX;
+            this.mouse.y = (event.clientY - this.rect.sizes.top) * this.rect.scaleY;
+                this.setState({
+                    canvas : {
+                        width : this.width,
+                        height : this.height,
+                        halfWidth : this.x0 + (this.mouse.prevX - this.mouse.x),
+                        halfHeight : this.y0 + (this.mouse.prevY - this.mouse.y) 
+                    }
+                })
+            }
         }
+
+    onMouseUp(event) {
+        this.mouse.isDown = false;
     }
 
     render() {
         return (
-            <canvas ref="canvas" id="graphic" width={this.width} height={this.height} onWheel={this.onWheel} onClick={this.onClick}>
+            <canvas ref="canvas" 
+                    id="graphic"
+                    width={this.width} 
+                    height={this.height} 
+                    onWheel={this.onWheel} 
+                    onMouseMove={this.onMouseMove}
+                    onMouseDown={this.onMouseDown}
+                    onMouseUp={this.onMouseUp}>
                 HTML5 canvas not support in your browser!
             </canvas>
         );
