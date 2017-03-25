@@ -42,8 +42,12 @@ input {
 select {
     padding: $select-size;
     width: $width;
+    margin-bottom: $gutter;
 }
-
+button {
+    margin-top: $gutter;
+    margin-bottom: $gutter;
+}
 button, select {
     background-color: transparent;
     border: 2px solid rgba($grey, .6);
@@ -52,8 +56,6 @@ button, select {
     font-family: "RobotoCondensed-Bold", sans-serif;
     transition: all $transition-fast ease-out;
     border-radius: 3px;
-    margin-top: $gutter;
-    margin-bottom: $gutter;
     &:hover, &:active, &:focus {
         outline: none;
         color: $lightgrey;
@@ -65,9 +67,5 @@ button, select {
 @include for-size(phone-only) {
     #form, select {
         width: $width;
-    }
-    select {
-        margin-top: $gutter;
-        margin-bottom: $gutter;
     }
 }

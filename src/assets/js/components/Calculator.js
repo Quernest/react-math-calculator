@@ -9,9 +9,10 @@ class Calculator extends Component {
         super(props);
         this.state = {
             f: '',
-            a: '-3',
-            b: '5',
-            select: 'dichotomy',
+            a: '',
+            b: '',
+            method: 'dichotomy',
+            findType: "min",
             isRender: false,
         };
         this.handleSubmit      = this.handleSubmit.bind(this);
@@ -52,7 +53,7 @@ class Calculator extends Component {
         let x1, x2, y1, y2;
         let delta = EPS / 2;
 
-        switch(this.state.select) {
+        switch(this.state.method) {
             case 'dichotomy' :
                 k = 1;
                 while (true) {
@@ -62,8 +63,11 @@ class Calculator extends Component {
 
                     y1 = this.f(x1);
                     y2 = this.f(x2);
-
-                    y1 <= y2 ? b = x2 : a = x1;
+                    
+                    if(this.state.findType === 'min')
+                        y1 <= y2 ? b = x2 : a = x1
+                    else
+                        y1 >= y2 ? b = x2 : a = x1 
 
                     if(Math.abs(b - a) < EPS) {
                         break;
@@ -87,21 +91,36 @@ class Calculator extends Component {
                 while(true) {
                     n = 2 * k;
 
-                    if(y1 <= y2) {
-                         b = x2;
-                        x2 = x1;
-                        x1 = a + PHI * (b - a);
-                        y2 = y1; y1 = this.f(x1);
+                    if(this.state.findType === 'min') {
+                        if(y1 <= y2) {
+                            b = x2;
+                            x2 = x1;
+                            x1 = a + PHI * (b - a);
+                            y2 = y1; y1 = this.f(x1);
+                        } else {
+                            a = x1;
+                            x1 = x2;
+                            x2 = b - PHI * (b - a);
+                            y1 = y2; y2 = this.f(x2);
+                        }
                     } else {
-                        a = x1;
-                        x1 = x2;
-                        x2 = b - PHI * (b - a);
-                        y1 = y2; y2 = this.f(x2);
+                            if(y1 >= y2) {
+                            b = x2;
+                            x2 = x1;
+                            x1 = a + PHI * (b - a);
+                            y2 = y1; y1 = this.f(x1);
+                        } else {
+                            a = x1;
+                            x1 = x2;
+                            x2 = b - PHI * (b - a);
+                            y1 = y2; y2 = this.f(x2);
+                        }
                     }
 
                     if(Math.abs(b - a) < EPS) {
                         break;
                     }
+
                     this.c = (a + b) / 2;
                     this.y = this.f(this.c);
                     arrayX.push(this.c);
@@ -131,29 +150,55 @@ class Calculator extends Component {
                 y1 = this.f(x1); y2 = this.f(x2);
 
                 while(true) {
-                    if(y1 < y2) {
-                        b = x2; k += 1;
-                        k === n - 1 ? (
-                            x2 = x1 + EPS,
-                            y2 = this.f(x2)
-                         ) : (
-                             x2 = x1, y2 = y1,
-                             x1 = a + l * fib(n - 1 - k),
-                             y1 = this.f(x1)
-                         );
-                    } else {
-                        a = x1; k += 1;
-                        k === n - 1 ? (
-                            x1 = x2 + EPS,
-                            y2 = this.f(x2)
-                        ) : (
-                            x1 = x2, y1 = y2,
-                            x2 = b - l * fib(n - 1 - k),
-                            y2 = this.f(x2)
-                        )
-                    }
+                    if(this.state.findType === 'min') {
+                        if(y1 <= y2) {
+                            b = x2; k += 1;
+                            k === n - 1 ? (
+                                x2 = x1 + EPS,
+                                y2 = this.f(x2)
+                            ) : (
+                                x2 = x1, y2 = y1,
+                                x1 = a + l * fib(n - 1 - k),
+                                y1 = this.f(x1)
+                            );
+                        } else {
+                            a = x1; k += 1;
+                            k === n - 1 ? (
+                                x1 = x2 + EPS,
+                                y2 = this.f(x2)
+                            ) : (
+                                x1 = x2, y1 = y2,
+                                x2 = b - l * fib(n - 1 - k),
+                                y2 = this.f(x2)
+                            )
+                        }
 
-                    y1 < y2 ? b = x1 : a = x1;
+                        y1 <= y2 ? b = x1 : a = x1;
+                    } else {
+                        if(y1 >= y2) {
+                            b = x2; k += 1;
+                            k === n - 1 ? (
+                                x2 = x1 + EPS,
+                                y2 = this.f(x2)
+                            ) : (
+                                x2 = x1, y2 = y1,
+                                x1 = a + l * fib(n - 1 - k),
+                                y1 = this.f(x1)
+                            );
+                        } else {
+                            a = x1; k += 1;
+                            k === n - 1 ? (
+                                x1 = x2 + EPS,
+                                y2 = this.f(x2)
+                            ) : (
+                                x1 = x2, y1 = y2,
+                                x2 = b - l * fib(n - 1 - k),
+                                y2 = this.f(x2)
+                            )
+                        }
+
+                        y1 >= y2 ? b = x1 : a = x1;
+                    }
    
                     if(k === n - 1) break;
 
@@ -169,7 +214,7 @@ class Calculator extends Component {
         }
         
         if(this.c == undefined) {
-            this.setState({ c: 'X* not found' });
+            this.setState({ c: 'X* не найден' });
         } else {
             this.setState({ 
                 c: this.c.toFixed(4),
@@ -209,10 +254,14 @@ class Calculator extends Component {
                     id="form"
                     onSubmit={this.handleSubmit}
                     >
-                    <select value={this.state.select} name="select" onChange={this.handleInputChange}>
+                    <select value={this.state.method} name="method" onChange={this.handleInputChange}>
                         <option value="dichotomy">Dichotomy</option>
                         <option value="gold">Golden section</option>
                         <option value="fibonacci">Fibonacci</option>
+                    </select>
+                    <select value={this.state.findType} name="findType" onChange={this.handleInputChange}>
+                        <option value="min">minimum</option>
+                        <option value="max">maximum</option>
                     </select>
                     <input 
                         type="text"

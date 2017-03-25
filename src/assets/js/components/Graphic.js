@@ -92,7 +92,7 @@ class Graphic extends Component {
             ctx.moveTo(xmin, y0); ctx.lineTo(w, y0); // X axis
             ctx.moveTo(x0, 0);    ctx.lineTo(x0, h); // Y axis
             ctx.stroke();
-            for(let i = 0; i < w / axes.scale; i++) {
+            for(let i = 0; i < 16; i++) {
                 if (i === 0) ctx.fillText(`${i}`, x0 - (axes.scale * i) - (axes.scale/4), y0 + (axes.scale / 4));
                 else {
                     // x coordinate numbers
