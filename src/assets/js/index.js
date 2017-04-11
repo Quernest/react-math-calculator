@@ -5,7 +5,7 @@ import css      from '../../styles/styles.scss';
 //     components
 import Calculator from "../js/components/Calculator.js";
 //     images
-import logotype from "../img/react.png";
+import logotype from "../images/react.png";
 
 class App extends Component {
     render() {

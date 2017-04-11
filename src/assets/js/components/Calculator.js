@@ -214,7 +214,7 @@ class Calculator extends Component {
         }
         
         if(this.c == undefined) {
-            this.setState({ c: 'X* не найден' });
+            this.setState({ c: 'X* not found' });
         } else {
             this.setState({ 
                 c: this.c.toFixed(4),
