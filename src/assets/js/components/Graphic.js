@@ -185,9 +185,10 @@ class Graphic extends Component {
                         halfWidth : this.x0 + (this.mouse.prevX - this.mouse.x),
                         halfHeight : this.y0 + (this.mouse.prevY - this.mouse.y) 
                     }
-                })
-            }
+				}
+			)
         }
+    }
 
     onMouseUp(event) {
         this.mouse.isDown = false;

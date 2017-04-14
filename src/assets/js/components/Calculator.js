@@ -240,7 +240,7 @@ class Calculator extends Component {
                 <span key={getRandom()}> <strong>y*</strong> = {this.state.y} </span>, 
                 <span key={getRandom()}> <strong>n</strong> = {this.state.intervals} </span>,
                 <div key={getRandom()} id="results-info">
-                    <p><strong>x*</strong> &ndash; координата точки, где функция f(x) имеет минимум.</p>
+                    <p><strong>x*</strong> &ndash; координата точки, где функция f(x) имеет экстремум.</p>
                     <p><strong>y*</strong> &ndash; значение функции f(x) в этой точке.</p>
                     <p><strong>n</strong> &ndash; количество интервалов разбиения.</p>
                 </div>

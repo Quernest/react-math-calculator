@@ -5,8 +5,7 @@ $iconSize: 36px;
     flex-direction: column;
     width: 100%;
     @include for-size(tablet-portrait-up) {
-        @include push--auto();
-        width: 90%;
+        padding-left: 1rem;
     }
     &-title {
         display: flex;
